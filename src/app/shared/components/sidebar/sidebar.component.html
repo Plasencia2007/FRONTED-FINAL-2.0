@@ -1,0 +1,33 @@
+<div class="sidebar d-flex flex-column p-3 bg-dark text-white">
+
+  <h5 class="mb-xxl-3 text-center p-4">Mi Sistema</h5>
+
+  <ul class="nav nav-pills flex-column text-center">
+    <li class="nav-item">
+      <a class="nav-link text-white" routerLink="/dashboard" routerLinkActive="active">
+        Dashboard
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white" routerLink="/usuarios" routerLinkActive="active">
+        Usuarios
+      </a>
+    </li>
+  </ul>
+
+  <!-- Este espacio crece automáticamente -->
+  <div class="mt-auto pt-3 border-top">
+    <div class="text-white text-center">
+      <i class="bi bi-person-fill"></i> {{ username }}
+      <br>
+      <small class="text-secondary">{{ role }}</small>
+    </div>
+  </div>
+   <hr>
+
+  <!-- 🔥 BTN CERRAR SESIÓN -->
+  <button class="btn btn-outline-light w-100" (click)="logout()">
+    <i class="bi bi-box-arrow-right"></i> logout
+  </button>
+
+</div>

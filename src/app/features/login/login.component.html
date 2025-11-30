@@ -1,0 +1,46 @@
+<div class="container d-flex justify-content-center align-items-center vh-100" style="background-color: #1544C6;">
+  <div class="card border-0 shadow-lg rounded-4 p-5" style="width: 30rem; max-width: 95%; background-color: #ffffff;">
+    <h4 class="text-center mb-4 fw-bold" style="color: #1544C6; font-size: 1.5rem;">Iniciar Sesión</h4>
+
+    <!-- ✅ ALERTA DE ERROR EN LA PARTE SUPERIOR -->
+    <div *ngIf="errorMessage" class="alert alert-danger rounded-3 mb-4 d-flex align-items-center" role="alert">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle me-2" viewBox="0 0 16 16">
+        <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.036.127.001.183a.163.163 0 0 1-.054.067.176.176 0 0 1-.094.027H1.146a.175.175 0 0 1-.094-.027.163.163 0 0 1-.054-.067.162.162 0 0 1 .001-.183L7.884 2.073a.147.147 0 0 1 .054-.057zM8 4a.95.95 0 0 0-.9.95l.09.95a.75.75 0 1 1-1.5 0l.09-.95A2.45 2.45 0 0 1 8 2.55a2.45 2.45 0 0 1 2.35 2.45l-.09.95a.75.75 0 1 1-1.5 0L8 4.95A.95.95 0 0 0 8 4zm-1 6a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1z"/>
+      </svg>
+      {{ errorMessage }}
+    </div>
+
+    <!-- FORMULARIO -->
+    <div class="mb-4">
+      <label class="form-label fw-medium text-dark" style="font-size: 0.95rem;">Usuario</label>
+      <input 
+        type="text" 
+        class="form-control form-control-lg rounded-3 py-2" 
+        [(ngModel)]="username" 
+        placeholder="Ingrese su usuario"
+        style="border: 1px solid #ced4da;"
+        autocomplete="username"
+        (input)="errorMessage = ''"> <!-- ✅ Limpia el error al escribir -->
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label fw-medium text-dark" style="font-size: 0.95rem;">Contraseña</label>
+      <input 
+        type="password" 
+        class="form-control form-control-lg rounded-3 py-2" 
+        [(ngModel)]="password" 
+        placeholder="Ingrese su contraseña"
+        style="border: 1px solid #ced4da;"
+        autocomplete="current-password"
+        (input)="errorMessage = ''"> 
+    </div>
+
+    <button 
+      class="btn w-100 py-3 rounded-3 fw-semibold fs-5"
+      [disabled]="!username || !password"
+      (click)="login()"
+      style="background-color: #247ad6; border: none; color: white; transition: background-color 0.2s, transform 0.2s;">
+      Ingresar
+    </button>
+  </div>
+</div>

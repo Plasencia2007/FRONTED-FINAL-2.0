@@ -1,0 +1,64 @@
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+
+                    <h2 class="text-primary fw-bold mb-4">Detalles de la Incidencia</h2>
+
+                    <!-- Tipo -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label class="form-label fw-bold text-muted">Tipo de Incidencia</label>
+                            <p class="form-control-plaintext mb-0">{{ incidencia?.tipoIncidencia }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Prioridad -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label class="form-label fw-bold text-muted">Prioridad</label>
+                            <p class="form-control-plaintext mb-0">
+                                <span class="badge" [ngClass]="getPrioridadClass(incidencia?.prioridad)">
+                                    {{ incidencia?.prioridad }}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Detalles -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label class="form-label fw-bold text-muted">Detalles</label>
+                            <p class="form-control-plaintext mb-0">
+                                {{ incidencia?.detalles || '—' }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Evidencia -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <label class="form-label fw-bold text-muted">URL de Evidencia</label>
+                            <p class="form-control-plaintext mb-0">
+                                <a *ngIf="incidencia?.evidencia" [href]="incidencia?.evidencia" target="_blank"
+                                    class="text-primary" style="text-decoration: underline;">
+                                    {{ incidencia?.evidencia }}
+                                </a>
+                                <span *ngIf="!incidencia?.evidencia">—</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Botón Cancelar -->
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-secondary" (click)="cancelar()">
+                            Cancelar
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

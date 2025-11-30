@@ -1,0 +1,8 @@
+.sidebar {
+  width: 200px;
+  min-height: 100vh;
+  height: 100vh; 
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,14 @@
+.layout-body {
+  display: flex;
+  height: calc(100vh - 56px); /* resto de la pantalla */
+  overflow: hidden; /* EVITA scroll en hijos */
+}
+
+.sidebar {
+  width: 250px;
+  min-height: 100%;   /* ocupa toda la altura disponible */
+  background: #212529;
+  overflow: hidden !important; /* SOLUCIÓN FINAL: no scroll */
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,119 @@
+<!-- src/app/features/incidencia/incidencia.component.html -->
+<div class="container mt-4">
+  <div class="mb-4">
+    <h1 class="text-primary fw-bold">INCIDENCIAS</h1>
+    <p class="text-muted small">
+      En esta sección el chofer podrá visualizar todas las incidencias registradas del día.
+    </p>
+    <hr class="my-3">
+
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <label class="form-label mb-0 text-muted">Filtrar por prioridad:</label>
+      <select class="form-select form-select-sm" [(ngModel)]="filtroPrioridad"
+        style="width: 900px; border-radius: 10px; font-size: 0.9rem;">
+        <option value="">Todas las prioridades</option>
+        <option value="ALTA">Alta</option>
+        <option value="MEDIA">Media</option>
+        <option value="BAJA">Baja</option>
+      </select>
+    </div>
+
+    <button *ngIf="puedeCrear" class="btn btn-success" routerLink="/incidencias/nueva">
+      <i class="bi bi-plus-circle me-1"></i> + REGISTRAR NUEVA INCIDENCIA
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-12" *ngIf="incidencias.length === 0">
+      <div class="text-center py-5">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">🔍</div>
+        <h4 style="color: #6c757d; margin-bottom: 0.5rem;">No hay incidencias</h4>
+        <p style="color: #6c757d;">No se encontraron incidencias con la prioridad seleccionada.</p>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4" *ngFor="let incidencia of incidencias">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ incidencia.tipoIncidencia }}</h5>
+          <p class="card-text"><strong>Prioridad:</strong> {{ incidencia.prioridad }}</p>
+          <p class="card-text"><strong>Detalles:</strong> {{ incidencia.detalles || '—' }}</p>
+
+          <div class="card-text">
+            <strong>Evidencia:</strong>
+            <span *ngIf="!incidencia.evidencia">—</span>
+            <div *ngIf="incidencia.evidencia && !esUrlTemporal(incidencia.evidencia) && isImage(incidencia.evidencia)" class="mt-2">
+              <img [src]="incidencia.evidencia"
+                   style="max-width: 100px; max-height: 80px; border: 1px solid #ccc; border-radius: 4px; cursor: pointer;"
+                   (click)="openFile(incidencia.evidencia)"
+                   alt="Evidencia">
+            </div>
+            <a *ngIf="incidencia.evidencia && !esUrlTemporal(incidencia.evidencia) && !isImage(incidencia.evidencia)"
+               [href]="incidencia.evidencia" target="_blank" class="text-primary">
+              Ver archivo
+            </a>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-primary" (click)="abrirModalDetalles(incidencia)">
+              Detalles
+            </button>
+            <button *ngIf="puedeEditar" class="btn btn-sm btn-outline-warning"
+              [routerLink]="['/incidencias', incidencia.id, 'editar']">
+              Editar
+            </button>
+            <button *ngIf="puedeEliminar" class="btn btn-sm btn-outline-danger"
+              (click)="eliminarIncidencia(incidencia.id)">
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mostrarModalDetalles" class="modal-overlay">
+  <div class="modal-content">
+    <h3 class="text-primary fw-bold mb-4">Detalles de la Incidencia</h3>
+    <div class="mb-3">
+      <label class="form-label fw-bold text-muted">Tipo de Incidencia</label>
+      <p class="form-control-plaintext mb-0">{{ incidenciaSeleccionada?.tipoIncidencia }}</p>
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold text-muted">Prioridad</label>
+      <p class="form-control-plaintext mb-0">
+        <span class="badge" [ngClass]="getPrioridadClass(incidenciaSeleccionada?.prioridad)">
+          {{ incidenciaSeleccionada?.prioridad }}
+        </span>
+      </p>
+    </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold text-muted">Detalles</label>
+      <p class="form-control-plaintext mb-0">
+        {{ incidenciaSeleccionada?.detalles || '—' }}
+      </p>
+    </div>
+    <div class="mb-4">
+      <label class="form-label fw-bold text-muted">URL de Evidencia</label>
+      <div class="form-control-plaintext mb-0">
+        <div *ngIf="isEvidenciaImagen" class="mt-2">
+          <img [src]="incidenciaSeleccionada?.evidencia"
+               style="max-width: 100%; max-height: 300px; border: 1px solid #ccc; border-radius: 4px; cursor: pointer;"
+               (click)="openFile(incidenciaSeleccionada?.evidencia)"
+               alt="Evidencia">
+        </div>
+        <a *ngIf="isEvidenciaNoImagen"
+           [href]="incidenciaSeleccionada?.evidencia" target="_blank" class="text-primary">
+          {{ incidenciaSeleccionada?.evidencia }}
+        </a>
+        <span *ngIf="!incidenciaSeleccionada?.evidencia">—</span>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-secondary" (click)="cerrarModal()">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>
