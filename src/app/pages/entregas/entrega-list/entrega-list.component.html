@@ -1,0 +1,98 @@
+<!-- src/app/pages/entregas/entrega-list/entrega-list.component.html -->
+<div class="container mt-4">
+  <!-- Título en azul -->
+  <h1 class="text-primary">Entregas programadas del día</h1>
+
+  <!-- Filtro por tipo de ruta -->
+  <div class="mb-4">
+    <label for="filtroRuta" class="form-label">Filtrar por tipo de ruta:</label>
+    <select 
+      id="filtroRuta" 
+      class="form-select w-auto d-inline-block"
+      [(ngModel)]="filtroTipoRuta"
+    >
+      <option value="todos">Todas las rutas</option>
+      <option 
+        *ngFor="let tipo of tiposRutaUnicos" 
+        [value]="tipo"
+      >
+        {{ tipo }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Mensaje de carga o error -->
+  <div *ngIf="loading" class="alert alert-info">Cargando entregas...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <!-- Lista de entregas como bloques horizontales -->
+  <div *ngIf="!loading && !error" class="row g-3">
+    <div 
+      class="col-12 mb-3"
+      *ngFor="let e of entregasFiltradas"
+    >
+      <div class="d-flex align-items-start p-3 bg-white border rounded shadow-sm">
+        <!-- Columna izquierda: Código (tipoRuta) + Botones + Estado -->
+        <div class="me-3">
+          <div class="fw-bold">Código:</div>
+          <div>{{ e.tipoRuta || '—' }}</div>
+          <div class="mt-2">
+            <button class="btn btn-sm btn-outline-primary me-2">Detalles</button>
+            <span 
+              class="badge bg-warning text-dark"
+              *ngIf="getEstadoDescripcion(e.idEstado).includes('Programada') || getEstadoDescripcion(e.idEstado).includes('Pendiente')"
+            >
+              Pendiente
+            </span>
+            <span 
+              class="badge bg-success"
+              *ngIf="getEstadoDescripcion(e.idEstado).includes('Completada') || getEstadoDescripcion(e.idEstado).includes('Finalizada')"
+            >
+              Completado
+            </span>
+            <span 
+              class="badge bg-danger"
+              *ngIf="getEstadoDescripcion(e.idEstado).includes('Cancelada')"
+            >
+              Cancelado
+            </span>
+          </div>
+        </div>
+
+        <!-- Columna central: Información -->
+        <div class="flex-grow-1">
+          <div class="row g-2">
+            <div class="col-md-4">
+              <div class="fw-bold">Almacén</div>
+              <div>{{ getClienteRazonSocial(e.idCliente) }}</div>
+            </div>
+            <div class="col-md-4">
+              <div class="fw-bold">Tienda</div>
+              <div>{{ getChoferNombre(e.idChofer) }}</div>
+            </div>
+            <div class="col-md-4">
+              <div class="fw-bold">Distrito</div>
+              <div>San Martín de Porres</div>
+            </div>
+            <div class="col-md-4">
+              <div class="fw-bold">Horario</div>
+              <div>09:00 - 13:00</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna derecha: Monto total -->
+        <div class="text-end ms-3">
+          <div class="fw-bold text-success">
+            {{ e.montoTotal | currency:'PEN':'symbol':'1.2-2' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensaje si no hay entregas -->
+  <div *ngIf="!loading && !error && entregasFiltradas.length === 0" class="alert alert-warning text-center mt-3">
+    No hay entregas registradas.
+  </div>
+</div>

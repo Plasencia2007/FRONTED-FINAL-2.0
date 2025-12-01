@@ -12,9 +12,9 @@
       <select class="form-select form-select-sm" [(ngModel)]="filtroPrioridad"
         style="width: 900px; border-radius: 10px; font-size: 0.9rem;">
         <option value="">Todas las prioridades</option>
-        <option value="ALTA">Alta</option>
-        <option value="MEDIA">Media</option>
-        <option value="BAJA">Baja</option>
+        <option value="Alta">Alta</option>
+        <option value="Media">Media</option>
+        <option value="Baja">Baja</option>
       </select>
     </div>
 
@@ -54,7 +54,7 @@
             </a>
           </div>
 
-          <div class="d-flex gap-2">
+          <div class="d-flex gap-2 mt-3">
             <button class="btn btn-sm btn-outline-primary" (click)="abrirModalDetalles(incidencia)">
               Detalles
             </button>
@@ -73,6 +73,7 @@
   </div>
 </div>
 
+<!-- Modal de detalles -->
 <div *ngIf="mostrarModalDetalles" class="modal-overlay">
   <div class="modal-content">
     <h3 class="text-primary fw-bold mb-4">Detalles de la Incidencia</h3>
@@ -112,7 +113,7 @@
     </div>
     <div class="d-flex justify-content-end">
       <button class="btn btn-secondary" (click)="cerrarModal()">
-        Cancelar
+        Cerrar
       </button>
     </div>
   </div>
